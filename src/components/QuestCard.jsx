@@ -115,21 +115,6 @@ export const QuestCard = ({
             <span className="px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-300">
               {step.tag}
             </span>
-
-            {/* Re-lock Button */}
-            {onRelock && step.id > 1 && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onRelock(step.id);
-                }}
-                className="px-2.5 py-1 rounded-lg bg-rose-950/80 hover:bg-rose-900 border border-rose-600/50 text-rose-300 text-xs font-mono transition-all flex items-center gap-1 cursor-pointer hover:scale-105 active:scale-95"
-                title="Re-lock this stop and subsequent stops"
-              >
-                <Lock className="w-3 h-3 text-rose-400" />
-                <span>Re-lock Stop 🔒</span>
-              </button>
-            )}
           </div>
         </div>
 
@@ -202,7 +187,7 @@ export const QuestCard = ({
             </div>
           )}
 
-          {/* Action Buttons */}
+          {/* Action Buttons Row */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
             <a
               href={step.mapUrl}
@@ -215,7 +200,7 @@ export const QuestCard = ({
               <ExternalLink className="w-3.5 h-3.5 opacity-70" />
             </a>
 
-            {/* Next Step unlock trigger inside active card if current */}
+            {/* Next Step unlock button if current */}
             {isCurrent && onUnlock && (
               <button
                 onClick={onUnlock}
@@ -223,6 +208,18 @@ export const QuestCard = ({
               >
                 <Unlock className="w-4 h-4 text-amber-400" />
                 <span>Unlock Next Destination 🔓</span>
+              </button>
+            )}
+
+            {/* Explicit Prominent Re-lock Button for any unlocked step > 1 */}
+            {onRelock && step.id > 1 && (
+              <button
+                onClick={() => onRelock(step.id)}
+                className="px-5 py-3 rounded-xl bg-rose-950/80 hover:bg-rose-900 border border-rose-600/60 text-rose-300 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md hover:scale-102 active:scale-95"
+                title="Re-lock this stop and return it to locked state"
+              >
+                <Lock className="w-4 h-4 text-rose-400" />
+                <span>Re-lock Stop 🔒</span>
               </button>
             )}
           </div>

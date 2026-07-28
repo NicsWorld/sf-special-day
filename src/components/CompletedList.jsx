@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { CheckCircle2, ChevronDown, ChevronUp, MapPin, Clock, Eye } from 'lucide-react';
+import { CheckCircle2, ChevronDown, ChevronUp, MapPin, Clock, Eye, Lock } from 'lucide-react';
 
-export const CompletedList = ({ completedSteps, onSelectStep }) => {
+export const CompletedList = ({ completedSteps, onSelectStep, onRelockStep }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!completedSteps || completedSteps.length === 0) {
@@ -68,13 +68,26 @@ export const CompletedList = ({ completedSteps, onSelectStep }) => {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => onSelectStep(step.id)}
-                  className="self-start sm:self-center px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono hover:bg-amber-500/20 transition-all flex items-center gap-1.5"
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                  Review Card
-                </button>
+                <div className="flex items-center gap-2 self-start sm:self-center">
+                  <button
+                    onClick={() => onSelectStep(step.id)}
+                    className="px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono hover:bg-amber-500/20 transition-all flex items-center gap-1.5"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    Review Card
+                  </button>
+
+                  {onRelockStep && step.id > 1 && (
+                    <button
+                      onClick={() => onRelockStep(step.id)}
+                      className="px-2.5 py-1.5 rounded-lg bg-rose-950/80 border border-rose-600/40 text-rose-300 text-xs font-mono hover:bg-rose-900 transition-all flex items-center gap-1"
+                      title="Re-lock this step"
+                    >
+                      <Lock className="w-3 h-3 text-rose-400" />
+                      Re-lock
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>

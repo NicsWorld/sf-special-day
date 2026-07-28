@@ -92,6 +92,7 @@ export function App() {
             const el = document.getElementById(`step-card-${stepId}`);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
+          onRelockStep={handleRelockStep}
         />
 
         {/* Schedule Quest Cards */}
