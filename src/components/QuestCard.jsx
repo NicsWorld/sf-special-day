@@ -13,8 +13,8 @@ import {
   ExternalLink
 } from 'lucide-react';
 
-// SET THIS TO true WHEN YOU ARE READY TO ENABLE UNLOCK BUTTONS
-const ENABLE_UNLOCK_BUTTONS = false;
+// SET THIS TO true TO ENABLE UNLOCK BUTTONS (CURRENTLY ENABLED)
+const ENABLE_UNLOCK_BUTTONS = true;
 
 export const QuestCard = ({
   step,
@@ -75,7 +75,7 @@ export const QuestCard = ({
               "{step.teaser}"
             </div>
 
-            {/* Optional Unlock Button */}
+            {/* Unlock Button */}
             {ENABLE_UNLOCK_BUTTONS && (
               <button
                 onClick={() => onUnlock(step.id)}
@@ -204,7 +204,7 @@ export const QuestCard = ({
               <ExternalLink className="w-3.5 h-3.5 opacity-70" />
             </a>
 
-            {/* Optional Next Step unlock button if current */}
+            {/* Unlock button if current */}
             {ENABLE_UNLOCK_BUTTONS && isCurrent && onUnlock && (
               <button
                 onClick={onUnlock}
