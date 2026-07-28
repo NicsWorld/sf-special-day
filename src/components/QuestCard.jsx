@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Lock,
+  Unlock,
   MapPin,
   Clock,
   Navigation,
@@ -17,6 +18,7 @@ export const QuestCard = ({
   isUnlocked,
   isCurrent,
   isCompleted,
+  onUnlock,
   onRelock
 }) => {
   const [copied, setCopied] = useState(false);
@@ -28,7 +30,7 @@ export const QuestCard = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // LOCKED CARD VIEW (Unlock capability removed for now)
+  // LOCKED CARD VIEW
   if (!isUnlocked) {
     return (
       <motion.div
@@ -69,6 +71,16 @@ export const QuestCard = ({
             <div className="max-w-md mx-auto p-4 rounded-2xl bg-slate-950/70 border border-slate-800 text-slate-300 italic text-sm sm:text-base leading-relaxed">
               "{step.teaser}"
             </div>
+
+            {/* Unlock Button */}
+            <button
+              onClick={() => onUnlock(step.id)}
+              className="mt-2 relative inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-600 via-amber-500 to-rose-600 text-slate-950 font-bold text-sm sm:text-base shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 group/btn overflow-hidden cursor-pointer"
+            >
+              <Unlock className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
+              <span>Unlock Next Stop 🔓</span>
+              <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
+            </button>
           </div>
         </div>
       </motion.div>
@@ -187,8 +199,19 @@ export const QuestCard = ({
               <ExternalLink className="w-3.5 h-3.5 opacity-70" />
             </a>
 
+            {/* Next Step unlock button if current */}
+            {isCurrent && onUnlock && (
+              <button
+                onClick={onUnlock}
+                className="px-6 py-3 rounded-xl bg-rose-900/60 hover:bg-rose-800 border border-rose-600/40 text-rose-200 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <Unlock className="w-4 h-4 text-amber-400" />
+                <span>Unlock Next Destination 🔓</span>
+              </button>
+            )}
+
             {/* Re-lock Button on unlocked cards */}
-            {onRelock && step.id > 1 && (
+            {onRelock && (
               <button
                 onClick={() => onRelock(step.id)}
                 className="px-5 py-3 rounded-xl bg-slate-800/90 hover:bg-rose-950 border border-slate-700 hover:border-rose-600/60 text-slate-300 hover:text-rose-300 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md hover:scale-102 active:scale-95"
