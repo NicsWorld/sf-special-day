@@ -13,6 +13,9 @@ import {
   ExternalLink
 } from 'lucide-react';
 
+// SET THIS TO true WHEN YOU ARE READY TO ENABLE UNLOCK BUTTONS
+const ENABLE_UNLOCK_BUTTONS = false;
+
 export const QuestCard = ({
   step,
   isUnlocked,
@@ -72,15 +75,17 @@ export const QuestCard = ({
               "{step.teaser}"
             </div>
 
-            {/* Unlock Button */}
-            <button
-              onClick={() => onUnlock(step.id)}
-              className="mt-2 relative inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-600 via-amber-500 to-rose-600 text-slate-950 font-bold text-sm sm:text-base shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 group/btn overflow-hidden cursor-pointer"
-            >
-              <Unlock className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
-              <span>Unlock Next Stop 🔓</span>
-              <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
-            </button>
+            {/* Optional Unlock Button */}
+            {ENABLE_UNLOCK_BUTTONS && (
+              <button
+                onClick={() => onUnlock(step.id)}
+                className="mt-2 relative inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-600 via-amber-500 to-rose-600 text-slate-950 font-bold text-sm sm:text-base shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.7)] hover:scale-105 active:scale-95 transition-all duration-300 group/btn overflow-hidden cursor-pointer"
+              >
+                <Unlock className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
+                <span>Unlock Next Stop 🔓</span>
+                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
+              </button>
+            )}
           </div>
         </div>
       </motion.div>
@@ -199,8 +204,8 @@ export const QuestCard = ({
               <ExternalLink className="w-3.5 h-3.5 opacity-70" />
             </a>
 
-            {/* Next Step unlock button if current */}
-            {isCurrent && onUnlock && (
+            {/* Optional Next Step unlock button if current */}
+            {ENABLE_UNLOCK_BUTTONS && isCurrent && onUnlock && (
               <button
                 onClick={onUnlock}
                 className="px-6 py-3 rounded-xl bg-rose-900/60 hover:bg-rose-800 border border-rose-600/40 text-rose-200 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
@@ -211,7 +216,7 @@ export const QuestCard = ({
             )}
 
             {/* Re-lock Button on unlocked cards */}
-            {onRelock && (
+            {onRelock && step.id > 1 && (
               <button
                 onClick={() => onRelock(step.id)}
                 className="px-5 py-3 rounded-xl bg-slate-800/90 hover:bg-rose-950 border border-slate-700 hover:border-rose-600/60 text-slate-300 hover:text-rose-300 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md hover:scale-102 active:scale-95"
