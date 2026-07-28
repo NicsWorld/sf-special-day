@@ -10,8 +10,8 @@ import {
   Check,
   Compass,
   Sparkles,
-  Info,
-  ExternalLink
+  ExternalLink,
+  RotateCcw
 } from 'lucide-react';
 
 export const QuestCard = ({
@@ -20,7 +20,7 @@ export const QuestCard = ({
   isCurrent,
   isCompleted,
   onUnlock,
-  onViewDetails
+  onRelock
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -110,10 +110,26 @@ export const QuestCard = ({
               Objective #{step.id} UNLOCKED
             </span>
           </div>
+
           <div className="flex items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-300">
               {step.tag}
             </span>
+
+            {/* Re-lock Button */}
+            {onRelock && step.id > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRelock(step.id);
+                }}
+                className="px-2.5 py-1 rounded-lg bg-rose-950/80 hover:bg-rose-900 border border-rose-600/50 text-rose-300 text-xs font-mono transition-all flex items-center gap-1 cursor-pointer hover:scale-105 active:scale-95"
+                title="Re-lock this stop and subsequent stops"
+              >
+                <Lock className="w-3 h-3 text-rose-400" />
+                <span>Re-lock Stop 🔒</span>
+              </button>
+            )}
           </div>
         </div>
 

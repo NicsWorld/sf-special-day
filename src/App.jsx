@@ -43,6 +43,17 @@ export function App() {
     }, 300);
   };
 
+  const handleRelockStep = (stepId) => {
+    // Re-locking stepId sets the current unlocked stage to stepId - 1
+    const newUnlocked = Math.max(1, stepId - 1);
+    setUnlockedStep(newUnlocked);
+    try {
+      localStorage.setItem(STORAGE_KEY, newUnlocked.toString());
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleResetProgress = () => {
     setUnlockedStep(1);
     try {
@@ -98,6 +109,7 @@ export function App() {
                 isCurrent={isCurrent}
                 isCompleted={isCompleted}
                 onUnlock={() => handleUnlockStep(step.id + 1)}
+                onRelock={handleRelockStep}
               />
             );
           })}
